@@ -10,9 +10,7 @@ This repository is a demonstration of how to build a locked sandbox environment 
 
 ## Required Tools Install
 _or Use Github Codespacesa and DevContainers_
-
 * [Terraform](https://developer.hashicorp.com/terraform/downloads)
-* [Task](https://taskfile.dev)
 
 ## Required Existing Resources and Configuration
 Component | Usage
@@ -55,12 +53,15 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     #firewall_policy_name                         = "proxy-southcentral-policy"
 
     az login --scope https://graph.microsoft.com/.default #Code requires AAD permissions 
-    task up
+    terraform -chdir=./infrastructure workspace new southcentralus || true
+    terraform -chdir=./infrastructure workspace select southcentralus
+    terraform -chdir=./infrastructure init
+    terraform -chdir=./infrastructure apply -auto-approve -var "region=southcentralus" -var-file="./infrastructure/azure.tfvars"
 ```
 ## Destory Environment
 ```bash
     az login --scope https://graph.microsoft.com/.default
-    task down
+    terraform -chdir=./infrastructure destroy -auto-approve -var "region=southcentralus" -var-file="./infrastructure/azure.tfvars"
 ```
 
 # Application Deployment
@@ -87,9 +88,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 * The Azure Cli AKS subcommand has the ability to run commands on a private AKS cluster without having direct connectivity.  
 * This can be used for one-off commands including viewing logs
 ```bash
-    task run -- "kubectl get nodes" 
-    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get nodes'
-    command started at 2023-05-05 15:08:35+00:00, finished at 2023-05-05 15:08:36+00:00 with exitcode=0
+    az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get nodes'
     NAME                              STATUS   ROLES   AGE    VERSION
     aks-default-86141613-vmss000000   Ready    agent   134m   v1.26.3
     aks-default-86141613-vmss000001   Ready    agent   134m   v1.26.3
@@ -97,9 +96,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     aks-default-86141613-vmss000003   Ready    agent   108m   v1.26.3
     aks-default-86141613-vmss000004   Ready    agent   64m    v1.26.3
 
-    task run -- "kubectl get pods -n bookstore" 
-    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get pods -n bookstore'
-    command started at 2023-05-05 15:09:26+00:00, finished at 2023-05-05 15:09:27+00:00 with exitcode=0
+    az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get pods -n bookstore'
     NAME                              READY   STATUS    RESTARTS   AGE
     details-v1-bdb97665b-ptqn4        2/2     Running   0          106m
     productpage-v1-6f769fcbc6-qxlww   2/2     Running   0          106m
@@ -108,9 +105,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     reviews-v2-58778c5cb-4h8jp        2/2     Running   0          106m
     reviews-v3-85f56ccb56-2dtd9       2/2     Running   0          106m
 
-    task run -- "kubectl logs todoapi-84664fcfc8-qnxpg"
-    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command "kubectl logs todoapi-84664fcfc8-qnxpg"
-    command started at 2023-05-08 17:28:15+00:00, finished at 2023-05-08 17:28:16+00:00 with exitcode=0
+    az aks command invoke -g pony-36358_rg -n pony-36358-aks --command "kubectl logs todoapi-84664fcfc8-qnxpg"
     info: todoapi[0]
         Application is ready to run.
     warn: Microsoft.AspNetCore.Server.Kestrel[0]
