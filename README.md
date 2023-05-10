@@ -1,3 +1,9 @@
+---
+services: aks,eventhub,cosmos,privatelink-service
+platforms: dotnet
+author: briandenicola
+---
+
 # Overview
 
 This repository is a demonstration of how to build a locked sandbox environment in Azure leveraging Private Link Scope. It is currently a work in progress
@@ -124,3 +130,6 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     * Example: `az network bastion tunnel --name gelding-36358-bastion --resource-group gelding-36358_rg --target-resource-id /subscriptions/17e5343-e92b-4c08-bf19-eb8be6c96991/resourceGroups/gelding-36358_rg/providers/Microsoft.Compute/virtualMachines/gelding-36358-vm --resource-port 22 --port 2222`
     * You then can ssh into the VM with: `ssh admin@127.0.0.1 -p 2222`
 * A pre-built Windows 11 VM with all required tooling and Subsystem for Linux installed
+
+# LICENSE
+See [LICENSE](LICENSE).
