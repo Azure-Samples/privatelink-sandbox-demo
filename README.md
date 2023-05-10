@@ -9,11 +9,10 @@ author: briandenicola
 This repository is a demonstration of how to build a locked sandbox environment in Azure leveraging Private Link Scope. It is currently a work in progress
 
 ## Required Tools Install
-_or Use Github Codespacesa and DevContainer_s
+_or Use Github Codespacesa and DevContainers_
 
-* Terraform
-* Task 
-    from taskfile.dev)
+* [Terraform](https://developer.hashicorp.com/terraform/downloads)
+* [Task](https://taskfile.dev)
 
 ## Required Existing Resources and Configuration
 Component | Usage
@@ -22,7 +21,7 @@ Component | Usage
 | Identity granted Owner permissions over each subscription |
 | Azure Virtual Network (Core) | A subnet for Private Endpoints |
 | Azure VPN Gateway | |
-| Azure Firewall Policy | [Required Rules](https://github.com/briandenicola/kubernetes-cluster-setup/blob/main/infrastructure/prereqs/azuredeploy.template.json)
+| Azure Firewall Policy | [Required Rules](https://learn.microsoft.com/en-us/azure/aks/outbound-rules-control-egress)
 | Private DNS Zones (attached to Core Vnet) | privatelink.azurecr.io |
 
 ## Application Azure Subscriptions Requirments
@@ -47,13 +46,13 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 ## Build Environment
 ```bash
     vi ./infrastructure/azure.tfvars
-    #firewall_policy_name                         = "proxy-southcentral-policy"
-    #firewall_policy_rg_name                      = "Core_Firewall_RG"
     #core_subscription                            = "557f5d52-bffc-4582-bd0b-2cd706813031"
-    #core_private_endpoint_virutalnetwork_rg_name = "Core_Network_RG"
     #core_private_endpoint_virutalnetwork_name    = "Core-VNet-001"
+    #core_private_endpoint_virutalnetwork_rg_name = "Core_Network_RG"
     #core_dns_rg_name                             = "Core_DNS_RG"
     #core_private_endpoint_rg_name                = "Core_PrivateEndpoints_RG"
+    #firewall_policy_rg_name                      = "Core_Firewall_RG"
+    #firewall_policy_name                         = "proxy-southcentral-policy"
 
     az login --scope https://graph.microsoft.com/.default #Code requires AAD permissions 
     task up
