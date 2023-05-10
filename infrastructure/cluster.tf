@@ -56,6 +56,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     user_assigned_identity_id = azurerm_user_assigned_identity.aks_kubelet_identity.id
   }
 
+  service_mesh_profile {
+    mode = "Istio"
+  }
+
   default_node_pool {
     name                = "default"
     node_count          = 3
