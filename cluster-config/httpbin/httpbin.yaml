@@ -12,7 +12,7 @@ metadata:
 spec:
   interval: 1m0s
   type: oci
-  url: oci://gelding36358acr.azurecr.io/helm
+  url: oci://<replaceme>.azurecr.io/helm
   passCredentials: true
   secretRef:
     name: https-credentials

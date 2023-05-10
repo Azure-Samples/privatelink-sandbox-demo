@@ -5,9 +5,9 @@ metadata:
   namespace: bookstore
 spec:
   hosts:
-  - bookstore.bjdazure.tech
+  - bookstore.contoso.tech
   gateways:
-  - aks-istio-ingress/default-bjdazure-tech-gw
+  - aks-istio-ingress/default-contoso-tech-gw
   http:
   - match:
     - uri:

@@ -58,13 +58,13 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name:  default-bjdazure-tech-vs
+  name:  default-contoso-tech-vs
   namespace: default-ingress-backend
 spec:
   hosts:
-  -  istio-default.bjdazure.tech
+  -  istio-default.contoso.tech
   gateways:
-  -  aks-istio-ingress/default-bjdazure-tech-gw
+  -  aks-istio-ingress/default-contoso-tech-gw
   http:
   - route:
     - destination:
