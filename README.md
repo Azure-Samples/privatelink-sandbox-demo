@@ -8,9 +8,12 @@ author: briandenicola
 
 This repository is a demonstration of how to build a locked sandbox environment in Azure leveraging Private Link Scope. It is currently a work in progress
 
-## Required Tools (or use DevContainer)
+## Required Tools Install
+_or Use Github Codespacesa and DevContainer_s
+
 * Terraform
-* Task (from taskfile.dev)
+* Task 
+    from taskfile.dev)
 
 ## Required Existing Resources and Configuration
 Component | Usage
@@ -22,6 +25,9 @@ Component | Usage
 | Azure Firewall Policy | [Required Rules](https://github.com/briandenicola/kubernetes-cluster-setup/blob/main/infrastructure/prereqs/azuredeploy.template.json)
 | Private DNS Zones (attached to Core Vnet) | privatelink.azurecr.io |
 
+## Application Azure Subscriptions Requirments
+* AKS Preview Features Registered
+    * `bash ./scripts/aks-preview-features.sh`
 
 ## Components
 Component | Usage
@@ -41,11 +47,11 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 ## Build Environment
 ```bash
     vi ./infrastructure/azure.tfvars
-    #firewall_policy_name                         = "bjdproxy-southcentral-policy"
+    #firewall_policy_name                         = "proxy-southcentral-policy"
     #firewall_policy_rg_name                      = "Core_Firewall_RG"
-    #core_subscription                            = "43a071dd-5b86-475f-960b-59f814e4f070"
+    #core_subscription                            = "557f5d52-bffc-4582-bd0b-2cd706813031"
     #core_private_endpoint_virutalnetwork_rg_name = "Core_Network_RG"
-    #core_private_endpoint_virutalnetwork_name    = "BJD-Core-VNet-001"
+    #core_private_endpoint_virutalnetwork_name    = "Core-VNet-001"
     #core_dns_rg_name                             = "Core_DNS_RG"
     #core_private_endpoint_rg_name                = "Core_PrivateEndpoints_RG"
 
@@ -65,7 +71,6 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 ### Lifecycle
 1. Developer checkouts out branch in code repository using Github Codespaces.
 1. Developer updates code and develops againist a dedicated mini-cluster either in the Codespace or against AKS in Azure
-    * This [repository](https://github.com/briandenicola/codespaces-developer-demo) shows an example of this
 1. Developer checks in Code
 1. Azure Container Registry has a Build Task configured to monitor for code changes
 1. Azure Container Registry builds the application container
@@ -84,7 +89,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 * This can be used for one-off commands including viewing logs
 ```bash
     task run -- "kubectl get nodes" 
-    task: [run] az aks command invoke -g monkey-14304_rg -n monkey-14304-aks --command 'kubectl get nodes'
+    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get nodes'
     command started at 2023-05-05 15:08:35+00:00, finished at 2023-05-05 15:08:36+00:00 with exitcode=0
     NAME                              STATUS   ROLES   AGE    VERSION
     aks-default-86141613-vmss000000   Ready    agent   134m   v1.26.3
@@ -94,7 +99,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     aks-default-86141613-vmss000004   Ready    agent   64m    v1.26.3
 
     task run -- "kubectl get pods -n bookstore" 
-    task: [run] az aks command invoke -g monkey-14304_rg -n monkey-14304-aks --command 'kubectl get pods -n bookstore'
+    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command 'kubectl get pods -n bookstore'
     command started at 2023-05-05 15:09:26+00:00, finished at 2023-05-05 15:09:27+00:00 with exitcode=0
     NAME                              READY   STATUS    RESTARTS   AGE
     details-v1-bdb97665b-ptqn4        2/2     Running   0          106m
@@ -105,7 +110,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
     reviews-v3-85f56ccb56-2dtd9       2/2     Running   0          106m
 
     task run -- "kubectl logs todoapi-84664fcfc8-qnxpg"
-    task: [run] az aks command invoke -g monkey-14304_rg -n monkey-14304-aks --command "kubectl logs todoapi-84664fcfc8-qnxpg"
+    task: [run] az aks command invoke -g pony-36358_rg -n pony-36358-aks --command "kubectl logs todoapi-84664fcfc8-qnxpg"
     command started at 2023-05-08 17:28:15+00:00, finished at 2023-05-08 17:28:16+00:00 with exitcode=0
     info: todoapi[0]
         Application is ready to run.
@@ -127,7 +132,7 @@ Azure Private Link Service | Exposes AKS Ingress Control back to your Azure Core
 * This can be accessed through Azure Bastion
 * Native tooling can be used with Azure Bastion Standard SKU
     * `az network bastion tunnel` creates a secure tunnel to your VM through Bastion
-    * Example: `az network bastion tunnel --name gelding-36358-bastion --resource-group gelding-36358_rg --target-resource-id /subscriptions/17e5343-e92b-4c08-bf19-eb8be6c96991/resourceGroups/gelding-36358_rg/providers/Microsoft.Compute/virtualMachines/gelding-36358-vm --resource-port 22 --port 2222`
+    * Example: `az network bastion tunnel --name pony-36358-bastion --resource-group pony-36358_rg --target-resource-id /subscriptions/aa1194f5-8ca0-4445-9b3e-bb28c31d93f0/resourceGroups/pony-36358_rg/providers/Microsoft.Compute/virtualMachines/pony-36358-vm --resource-port 22 --port 2222`
     * You then can ssh into the VM with: `ssh admin@127.0.0.1 -p 2222`
 * A pre-built Windows 11 VM with all required tooling and Subsystem for Linux installed
 
