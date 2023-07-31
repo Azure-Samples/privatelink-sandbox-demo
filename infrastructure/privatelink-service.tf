@@ -1,6 +1,6 @@
 data "azurerm_lb" "aks_ingress_lb" {
     depends_on = [ 
-        azapi_resource.flux_config
+      azurerm_kubernetes_flux_configuration.flux_config
      ]
     name                = "kubernetes-internal"
     resource_group_name = "${local.resource_name}_k8s_nodes_rg"
