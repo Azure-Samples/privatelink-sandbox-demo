@@ -40,3 +40,8 @@ variable "vm_sku" {
   description = "The SKU for the default node pool"
   default     = "Standard_D4ads_v5" 
 }
+
+variable "ingress_namespace" {
+  description = "The namespace where the Istio ingress will be deployed to"
+  default     = "aks-istio-ingress"   
+}
