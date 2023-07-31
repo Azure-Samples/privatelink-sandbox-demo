@@ -56,7 +56,7 @@ Component | Usage
     terraform -chdir=./infrastructure workspace new southcentralus || true
     terraform -chdir=./infrastructure workspace select southcentralus
     terraform -chdir=./infrastructure init
-    terraform -chdir=./infrastructure apply -auto-approve -var "region=southcentralus" -var-file="./infrastructure/azure.tfvars"
+    terraform -chdir=./infrastructure apply -auto-approve -var "region=southcentralus" -var-file="./azure.tfvars"
 ```
 
 ## Destory Environment
