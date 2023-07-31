@@ -12,6 +12,14 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*.contoso.tech"
-
+    - "*.calf-42014.local"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-ingress-tls
+    hosts:
+    - "*.calf-42014.local"
   

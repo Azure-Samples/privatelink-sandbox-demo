@@ -1,16 +1,19 @@
----
 apiVersion: v1
-kind: Namespace
+kind: ServiceAccount
 metadata:
-  name: default-ingress-backend
+  name: calf-42014-aks-istio-identity
+  namespace: aks-istio-ingress
+  annotations:
+    azure.workload.identity/client-id: 0d1dc12c-43ae-47f4-ba0c-9be88faf2d0e
+    azure.workload.identity/tenant-id: 16b3c013-d300-468d-ac64-7eda0820b6d3
   labels:
-    istio.io/rev: asm-1-17
+    azure.workload.identity/use: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: default-backend
-  namespace: default-ingress-backend
+  namespace: aks-istio-ingress
 spec:
   selector:
     matchLabels:
@@ -27,6 +30,7 @@ spec:
       labels:
         app: default-ingress-backend
     spec:
+      serviceAccountName: calf-42014-aks-istio-identity
       containers:
       - name: ingress
         image: nginx:latest
@@ -39,12 +43,23 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: tls-mount
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+      volumes:
+      - name: tls-mount
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "istio-tls"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: default-backend-svc
-  namespace: default-ingress-backend
+  namespace: aks-istio-ingress
   labels:
     version: "1.0"
 spec:
@@ -58,11 +73,11 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name:  default-contoso-tech-vs
-  namespace: default-ingress-backend
+  name:  default-calf-42014-local-vs
+  namespace: aks-istio-ingress
 spec:
   hosts:
-  -  istio-default.contoso.tech
+  -  istio-default.calf-42014.local
   gateways:
   -  aks-istio-ingress/default-contoso-tech-gw
   http:
