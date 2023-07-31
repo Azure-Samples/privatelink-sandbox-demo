@@ -40,3 +40,8 @@ variable "ingress_namespace" {
   description = "The namespace where the Istio ingress will be deployed to"
   default     = "aks-istio-ingress"   
 }
+
+variable "branch_name" {
+  description = "Git branched used by flux"
+  default     = "main"
+} 

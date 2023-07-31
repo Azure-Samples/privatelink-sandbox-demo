@@ -44,7 +44,7 @@ locals {
   ingress_identity        = "${local.aks_name}-istio-identity"
   kv_name                 = "${local.resource_name}-kv"
   cluster_path            = "./cluster-config"
-  branch_name             = "main"
+  branch_name             = var.branch_name
   flux_repository         = "https://github.com/azure-samples/privatelink-sandbox-demo"
   vnet_cidr               = cidrsubnet("10.0.0.0/8", 8, random_integer.vnet_cidr.result)
   fw_subnet_cidr          = cidrsubnet(local.vnet_cidr, 8, 0)
