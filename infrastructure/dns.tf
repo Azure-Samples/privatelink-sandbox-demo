@@ -57,3 +57,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_vaultcore_
   resource_group_name   = azurerm_resource_group.this.name
   virtual_network_id    = azurerm_virtual_network.this.id
 }
+
+resource "azurerm_private_dns_zone" "local_developer_zone" {
+  name                = "${local.resource_name}.local"
+  resource_group_name = azurerm_resource_group.this.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "local_developer_zone" {
+  name                  = "${azurerm_virtual_network.this.name}-local-link"
+  private_dns_zone_name = azurerm_private_dns_zone.local_developer_zone.name
+  resource_group_name   = azurerm_resource_group.this.name
+  virtual_network_id    = azurerm_virtual_network.this.id
+}
