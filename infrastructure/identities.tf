@@ -9,3 +9,9 @@ resource "azurerm_user_assigned_identity" "aks_kubelet_identity" {
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 }
+
+resource "azurerm_user_assigned_identity" "aks_istio_identity" {
+  name                = "${local.aks_name}-istio-identity"
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
+}
