@@ -30,6 +30,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   local_account_disabled              = true
   role_based_access_control_enabled   = true
   automatic_channel_upgrade           = "patch"
+  node_os_channel_upgrade             = "NodeImage"
   image_cleaner_enabled               = true
   image_cleaner_interval_hours        = "48"
 
@@ -57,16 +58,17 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   service_mesh_profile {
-    mode = "Istio"
+    mode                             = "Istio"
+    internal_ingress_gateway_enabled = true
   }
 
   default_node_pool {
     name                = "default"
     node_count          = 3
-    vm_size             = "Standard_DS2_v2"
-    os_disk_size_gb     = 30
+    vm_size             = var.vm_sku
+    os_disk_size_gb     = 90
     vnet_subnet_id      = azurerm_subnet.nodes.id
-    os_sku              = "CBLMariner"
+    os_sku              = "Mariner"
     os_disk_type        = "Ephemeral"
     type                = "VirtualMachineScaleSets"
     enable_auto_scaling = true
@@ -82,11 +84,29 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     dns_service_ip      = "100.${random_integer.services_cidr.id}.0.10"
     service_cidr        = "100.${random_integer.services_cidr.id}.0.0/16"
+    pod_cidr            = "100.${random_integer.pod_cidr.id}.0.0/16"
     network_plugin      = "azure"
-    network_plugin_mode = "Overlay"
+    network_plugin_mode = "overlay"
     load_balancer_sku   = "standard"
-    pod_cidr            = "192.168.0.0/16"
     outbound_type       = "userDefinedRouting"
+  }
+
+  maintenance_window_auto_upgrade {
+    frequency = "Weekly"
+    interval  = 1
+    duration  = 4
+    day_of_week = "Friday"
+    utc_offset = "-06:00"
+    start_time = "20:00"
+  }
+
+  maintenance_window_node_os {
+    frequency = "Weekly"
+    interval  = 1
+    duration  = 4
+    day_of_week = "Saturday"
+    utc_offset = "-06:00"
+    start_time = "20:00"
   }
 
   oms_agent {
