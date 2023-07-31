@@ -5,7 +5,7 @@ metadata:
   namespace: bookstore
 spec:
   hosts:
-  - bookstore.calf-42014.local
+  - bookstore.contoso.tech
   gateways:
   - aks-istio-ingress/default-contoso-tech-gw
   http:
