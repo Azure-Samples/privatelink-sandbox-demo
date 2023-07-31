@@ -1,6 +1,10 @@
 data "azurerm_client_config" "current" {}
 data "azurerm_subscription" "current" {}
 
+data "http" "myip" {
+  url = "http://checkip.amazonaws.com/"
+}
+
 resource "random_id" "this" {
   byte_length = 2
 }
@@ -37,6 +41,7 @@ locals {
   bastion_name            = "${local.resource_name}-bastion"
   bastion_pip_name        = "${local.resource_name}-bastion-pip"
   acr_account_name        = "${random_pet.this.id}${random_id.this.dec}acr"
+  ingress_identity        = "${local.aks_name}-istio-identity"
   kv_name                 = "${local.resource_name}-kv"
   cluster_path            = "./cluster-config"
   flux_repository         = "https://github.com/azure-samples/privatelink-sandbox-demo"
@@ -48,6 +53,7 @@ locals {
   compute_subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 4)
   pls_subnet_cidir        = cidrsubnet(local.vnet_cidr, 8, 10)
   bastion_subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 250)
+  allowed_ip_range        = ["${chomp(data.http.myip.response_body)}/32"]
 }
 
 resource "azurerm_resource_group" "this" {
