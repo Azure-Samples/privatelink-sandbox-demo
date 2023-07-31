@@ -29,13 +29,11 @@ resource "azurerm_subnet_network_security_group_association" "compute" {
   network_security_group_id = azurerm_network_security_group.this.id
 }
 
-
 #https://github.com/libre-devops/terraform-azurerm-bastion/blob/main/nsg.tf
 resource "azurerm_network_security_group" "bastion" {
   name                = "${local.resource_name}-bastion-nsg"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-
 }
 
 resource "azurerm_network_security_rule" "bastion_nsg" {
