@@ -57,6 +57,7 @@ Component | Usage
     terraform -chdir=./infrastructure workspace select southcentralus
     terraform -chdir=./infrastructure init
     terraform -chdir=./infrastructure apply -auto-approve -var "region=southcentralus" -var-file="./azure.tfvars"
+    bash ./scripts/setup-dns-records.sh
 ```
 
 ## Destory Environment
