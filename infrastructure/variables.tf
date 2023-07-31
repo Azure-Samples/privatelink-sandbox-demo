@@ -36,3 +36,7 @@ variable "core_dns_rg_name" {
   description = "The Resource Group name of the DNS zone privatelink.azurecr.io in the Core Network"
 }
 
+variable "vm_sku" {
+  description = "The SKU for the default node pool"
+  default     = "Standard_D4ads_v5" 
+}
