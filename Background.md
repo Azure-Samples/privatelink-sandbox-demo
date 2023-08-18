@@ -51,6 +51,7 @@ Working through the design choices above is an imperative step to keep control o
 | Category  |  Consideration |  Example response |
 |---|---|---|
 | Connectivity  | Will you allow connections to internal data sources, or ingest data into the sandbox ?  | |
+| Governance | What is the intent of these sandbox environment?  | Lower Environments, Parallel Governance Environment, New Feature Testing, All of the Above? |
 | Governance | Do you have to plan for budgetary constraints for the sandbox environment?  | |
 | Governance | Will the sandbox environments be timebound or limited in services scope? | |
 | Governance | Are sandboxes deployed centrally with automation or will you allow users to deploy services? | All Services, or a pre-defined set of Services |
@@ -62,15 +63,18 @@ Working through the design choices above is an imperative step to keep control o
 | Governance | Are there any regulatory requirements for the sandbox? | No, out of scope of PCI and ISO assessments |
 | Governance | Who will own and control the environments? | |
 | Governance | What Azure regions and/or Geos will be used? | |
-| Tooling | What tools are needed for a development environment? | Azure DevOps, GitHub, Artifact repository | |
-| Tooling | How will you deploy the environment(s) – automated or manual | Developer landing zones will be provisioned through Terraform |
+| Governance | How will environment lifecycle be managed? | |
+| Governance | What services will not be permitted? | |
+| Tooling | What systems will developers use to write code | Azure Dev Box, GitHub CodeSpaces, Hosted VMs | |
+| Tooling | What tools are needed for a development environment? | Azure DevOps, GitHub, Artifact repository, Code Scanning | |
+| Tooling | How will you create environment(s) – automated or manual | Developer landing zones will be provisioned through Terraform |
 | Tooling | Will there be shared services between sandbox environments? | Active Directory, Networking, security, proxy|
 | Use | Will the sandbox environment be used for code development or learning how to use Azure resources? | |
 | Use | What type of Azure resources can or will be used? | virtual machines, serverless, data functions, SQL, PaaS/IaaS services |
-| Governance | What services will not be permitted? | |
+| Use | How will public endpoints be locked down ||
 | Use | Do you have specific performance characteristics that need to be met? | |
 | Use | Will your users be allowed to build the environment from scratch? | |
-| Use | How will users request a sandbox, and how will it be approved? | |
+| Use | How will users request a sandbox, and how will it be approved? | Service Now, Backstage.io, Azure Deployment Environments |
 | Use | Will this environment be used for security team testing or simulating outages? | Blue/Purple/Red Team Penetration testing, Chaos Engineering, Ransomware modeling. |
 | User Access | Who can use the sandbox environment? | |
 | User Access | Where will users access to the sandbox environment? | from a corporate managed network, home network |
