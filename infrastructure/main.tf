@@ -54,7 +54,7 @@ locals {
   compute_subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 4)
   pls_subnet_cidir        = cidrsubnet(local.vnet_cidr, 8, 10)
   bastion_subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 250)
-  allowed_ip_range        = ["${chomp(data.http.myip.response_body)}/32"]
+  allowed_ip_range        = ["${chomp(data.http.myip.response_body)}"]
 }
 
 resource "azurerm_resource_group" "this" {
