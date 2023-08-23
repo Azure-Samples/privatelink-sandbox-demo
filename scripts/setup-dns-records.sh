@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 INFRA_PATH=$(realpath "${SCRIPT_DIR}/../infrastructure")
-ZONE_NAME="contoso.tech"
+ZONE_NAME=${APP_NAME}.local
 URI='*'
 CMD='kubectl --namespace aks-istio-ingress get service aks-istio-ingressgateway-internal --output jsonpath={.status.loadBalancer.ingress[].ip}'
 
