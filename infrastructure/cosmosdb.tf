@@ -1,4 +1,7 @@
 resource "azurerm_cosmosdb_account" "this" {
+
+  count = var.deploy_cosmosdb == true ? 1 : 0
+
   name                            = local.cosmosdb_name
   resource_group_name             = azurerm_resource_group.this.name
   location                        = azurerm_resource_group.this.location
@@ -18,6 +21,9 @@ resource "azurerm_cosmosdb_account" "this" {
 }
 
 resource "azurerm_private_endpoint" "cosmos_db" {
+
+  count = var.deploy_cosmosdb == true ? 1 : 0
+
   name                = "${local.cosmosdb_name}-endpoint"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
@@ -25,7 +31,7 @@ resource "azurerm_private_endpoint" "cosmos_db" {
 
   private_service_connection {
     name                           = "${local.cosmosdb_name}-endpoint"
-    private_connection_resource_id = azurerm_cosmosdb_account.this.id
+    private_connection_resource_id = azurerm_cosmosdb_account.this[0].id
     subresource_names              = ["sql"]
     is_manual_connection           = false
   }

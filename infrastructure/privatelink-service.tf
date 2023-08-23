@@ -7,6 +7,9 @@ data "azurerm_lb" "aks_ingress_lb" {
 }
 
 resource "azurerm_private_link_service" "this" {
+
+  count = var.deploy_private_link_service == true ? 1 : 0
+
   name                                        = "${local.aks_name}-privatelink-service"
   resource_group_name                         = azurerm_resource_group.this.name
   location                                    = azurerm_resource_group.this.location
@@ -24,6 +27,9 @@ resource "azurerm_private_link_service" "this" {
 }
  
 resource "azurerm_private_endpoint" "aks_ingress_core" {
+
+  count = var.deploy_private_link_service == true ? 1 : 0
+
   name                = "${local.aks_name}-ingress-core-endpoint"
   resource_group_name = var.core_private_endpoint_rg_name
   location            = azurerm_resource_group.this.location
@@ -32,7 +38,7 @@ resource "azurerm_private_endpoint" "aks_ingress_core" {
   
   private_service_connection {
     name                           ="${local.aks_name}-ingress-core-endpoint"
-    private_connection_resource_id = azurerm_private_link_service.this.id
+    private_connection_resource_id = azurerm_private_link_service.this[0].id
     is_manual_connection           = false
   }
 

@@ -45,3 +45,18 @@ variable "branch_name" {
   description = "Git branched used by flux"
   default     = "main"
 } 
+
+variable "deploy_cosmosdb" {
+  description = "Deploy Azure Cosmos DB as part of this Sandbox"
+  default     = false 
+}
+
+variable "deploy_eventhub" {
+  description = "Deploy Azure Event Hub as part of this Sandbox"
+  default     = false 
+}
+
+variable "deploy_private_link_service" {
+  description = "Deploy Azure Private Link Service for AKS Ingress as part of this Sandbox"
+  default     = false 
+}
