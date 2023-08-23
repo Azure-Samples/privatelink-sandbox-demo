@@ -83,13 +83,12 @@ resource "azurerm_key_vault_certificate" "this" {
       subject_alternative_names {
         dns_names = [
           "api.${local.resource_name}.local",
-          "api.constoso.tech",
-          "bookstore.contoso.tech",
-          "istio-default.contoso.tech"
+          "bookstore.${local.resource_name}.local",
+          "istio-default.${local.resource_name}.local"
         ]
       }
 
-      subject            = "CN=*.contoso.tech"
+      subject            = "CN=*.${local.resource_name}.local"
       validity_in_months = 12
     }
   }
