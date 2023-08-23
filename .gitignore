@@ -4,6 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 azure.tfvars
+Taskfile.yaml
 .terraform/
 .terraform*
 terraform.tfstate
